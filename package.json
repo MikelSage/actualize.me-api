@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/MikelSage/actualize.me/issues"
   },
-  "homepage": "https://github.com/MikelSage/actualize.me#readme"
+  "homepage": "https://github.com/MikelSage/actualize.me#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1"
+  }
 }
