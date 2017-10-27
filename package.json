@@ -1,0 +1,19 @@
+{
+  "name": "actualize-api",
+  "version": "1.0.0",
+  "description": "Api for instructor grading and tracking of student scores/progress",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test mocha test/*-test.js --exit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MikelSage/actualize.me.git"
+  },
+  "author": "MikelSage",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MikelSage/actualize.me/issues"
+  },
+  "homepage": "https://github.com/MikelSage/actualize.me#readme"
+}
