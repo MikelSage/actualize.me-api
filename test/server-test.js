@@ -1,6 +1,9 @@
 const assert = require('chai').assert
 const app = require('../server')
 const request = require('request')
+const environment = process.env.NODE_ENV || 'development'
+const configuration = require('../knexfile')[environment]
+const knex = require('knex')(configuration)
 
 describe('Server', () => {
   before((done) => {
@@ -24,13 +27,38 @@ describe('Server', () => {
     assert(app)
   })
 
-  describe('GET /', () => {
-    it('should return a 200', (done) => {
-      this.request.get('/', (error, response) => {
-        if (error) { done(error) }
+  describe('routes', () => {
+    beforeEach(() => {
+      return knex.migrate.rollback()
+      .then(() => knex.migrate.latest())
+      .then(() => knex.seed.run())
+    })
 
-        assert.equal(response.statusCode, 200)
-        done()
+    afterEach(() => {
+      return knex.migrate.rollback()
+    })
+
+    // describe('GET /api/v1/:rubric_id/submissions', (done) => {
+    //   this.request.get('/api/v1/1/submissions', (error, response) => {
+    //     if (error) { done(error) }
+    //
+    //     let submissions = JSON.parse(response.body)
+    //     assert.equal(submissions.length, 3)
+    //
+    //   })
+    // })
+
+    describe('GET /api/v1/current_projects', () => {
+      it('should return all current projects', (done) => {
+        let data = {user_id: 1}
+        this.request.get('/api/v1/current_projects', {form: data}, function(err, res) {
+          if (err) { done(err) }
+
+          let projects = JSON.parse(response.body)
+          assert.equal(projects.length, 6)
+          assert.equal(projects[0].name, 'Date Night')
+          done()
+        })
       })
     })
   })
