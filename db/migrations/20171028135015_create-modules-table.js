@@ -1,10 +1,10 @@
 
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('modules', function(table) {
-    table.increments()
+    table.increments('id').primary()
     table.integer('inning')
     table.string('program')
-    table.timestamps()
+    table.timestamps(true, true)
   })
 };
 

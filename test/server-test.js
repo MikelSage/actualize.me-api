@@ -54,7 +54,7 @@ describe('Server', () => {
         this.request.get('/api/v1/current_projects', {form: data}, function(err, res) {
           if (err) { done(err) }
 
-          let projects = JSON.parse(response.body)
+          let projects = JSON.parse(res.body)
           assert.equal(projects.length, 6)
           assert.equal(projects[0].name, 'Date Night')
           done()
