@@ -18,7 +18,10 @@ app.get('/', (request, response) => {
 app.get('/api/v1/current_projects', (request, response) => {
   let date = new Date
 
-  response.
+  knex.raw('select * from projects p inner join modules m on p.module_id = m.id where m.start_date < now() and m.end_date > now()')
+  .then((data) => {
+    response.status(200).json(data.rows)
+  })
 })
 
 if (!module.parent) {
