@@ -2,13 +2,11 @@ const moment = require('moment');
 
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
-  return knex('users').del()
-    .then(function() {
-      return knex('modules').del()
-    })
-    .then(function() {
-      return knex('projects').del()
-    })
+  return Promise.all([
+    knex('users').del(),
+    knex('projects').del(),
+    knex('modules').del()
+  ])
     .then(function () {
       // Inserts seed entries
       return knex('users').insert([
@@ -53,30 +51,37 @@ exports.seed = function(knex, Promise) {
     .then(function() {
       return knex('projects').insert([
         {
+          id: 1,
           module_id: 1,
           name: 'Date Night'
         },
         {
+          id: 2,
           module_id: 1,
           name: 'Perilous Journey'
         },
         {
+          id: 3,
           module_id: 1,
           name: 'Complete me'
         },
         {
+          id: 4,
           module_id: 1,
           name: 'Enigma'
         },
         {
+          id: 5,
           module_id: 1,
           name: 'Event Reporter'
         },
         {
+          id: 6,
           module_id: 1,
           name: 'Black Thursday'
         },
         {
+          id: 7,
           module_id: 2,
           name: 'Night Writer'
         }
