@@ -1,4 +1,5 @@
 const moment = require('moment');
+const bcrypt = require('bcryptjs');
 
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
@@ -16,7 +17,7 @@ exports.seed = function(knex, Promise) {
           last_name: 'Appleseed',
           description: 'Something should definitely go here.',
           username: 'johnyboi',
-          password: 'apples',
+          password: bcrypt.hashSync('pass', bcrypt.genSaltSync()),
           role: 'instructor'
         },
         {
@@ -25,7 +26,7 @@ exports.seed = function(knex, Promise) {
           last_name: 'Heft',
           description: 'Best dude',
           username: 'hefty',
-          password: 'password',
+          password: bcrypt.hashSync('pass', bcrypt.genSaltSync()),
           role: 'student'
         }
       ])
