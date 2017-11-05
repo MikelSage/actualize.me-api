@@ -74,37 +74,51 @@ exports.seed = function(knex, Promise) {
         {
           id: 1,
           module_id: 1,
-          name: 'Date Night'
+          name: 'Date Night',
+          description: 'Build a Binary Search Tree for a movie rater',
+          spec_url: 'http://backend.turing.io/module1/projects/date_night'
         },
         {
           id: 2,
           module_id: 1,
-          name: 'Perilous Journey'
+          name: 'Perilous Journey',
+          description: 'Learn linked lists on the Oregon Trail',
+          spec_url: 'http://backend.turing.io/module1/projects/perilous_journey'
         },
         {
           id: 3,
           module_id: 1,
-          name: 'Complete me'
+          name: 'Complete me',
+          description: 'Learn tries by building out an autocomplete app',
+          spec_url: 'http://backend.turing.io/module1/projects/complete_me'
         },
         {
           id: 4,
           module_id: 1,
-          name: 'Enigma'
+          name: 'Enigma',
+          description: 'Be a total codebreaker or something',
+          spec_url: 'http://backend.turing.io/module1/projects/enigma'
         },
         {
           id: 5,
           module_id: 1,
-          name: 'Event Reporter'
+          name: 'Event Reporter',
+          description: 'Learn to handle CSVs like a real reporter',
+          spec_url: 'http://backend.turing.io/module1/projects/event_reporter'
         },
         {
           id: 6,
           module_id: 1,
-          name: 'Black Thursday'
+          name: 'Black Thursday',
+          description: 'Build your own really slow database in Ruby!',
+          spec_url: 'http://backend.turing.io/module1/projects/black_thursday'
         },
         {
           id: 7,
           module_id: 2,
-          name: 'Night Writer'
+          name: 'Credit Check',
+          description: 'Intro to algorithms with yo boy Luhn',
+          spec_url: 'http://backend.turing.io/module1/projects/credit_check'
         }
       ])
     })
