@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
   return Promise.all([
+    knex('user_modules').del(),
     knex('users').del(),
     knex('projects').del(),
     knex('modules').del()
@@ -46,6 +47,25 @@ exports.seed = function(knex, Promise) {
           program: 'Backend',
           start_date: moment().add(40, 'days'),
           end_date: moment().add(80, 'days')
+        }
+      ])
+    })
+    .then(function() {
+      return knex('user_modules').insert([
+        {
+          id: 1,
+          module_id: 1,
+          user_id: 1
+        },
+        {
+          id: 2,
+          module_id: 1,
+          user_id: 2
+        },
+        {
+          id: 3,
+          module_id: 2,
+          user_id: 1
         }
       ])
     })
