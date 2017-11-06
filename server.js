@@ -46,8 +46,8 @@ app.get('/', (request, response) => {
 
 app.get('/api/v1/current_projects', (request, response, next) => {
   let query = `select p.* from projects p
-                inner join modules m on p.module_id = m.id
-                where m.start_date < now() and m.end_date > now()
+                 inner join modules m on p.module_id = m.id
+                 where m.start_date < now() and m.end_date > now()
               `
   knex.raw(query)
   .then((data) => {
@@ -55,22 +55,57 @@ app.get('/api/v1/current_projects', (request, response, next) => {
   })
 })
 
+app.get('/api/v1/projects/:id', (request, response, next) => {
+  let project_id = request.params.id
+  knex.raw('select * from projects p where p.id = ?', [project_id])
+  .then((data) => {
+    response.status(200).json(data.rows[0])
+  })
+})
+
 app.get('/api/v1/projects/:id/ungraded_subs', (request, response, next) =>{
   let project_id = request.params.id
-  let query =`select s.id, s.notes, s.github_url,
+  let query =`select s.*, p.name as project_name,
                 row_to_json(u.*) as user, json_agg(sc.*) as scores
                 from submissions s
                 inner join users u on s.user_id = u.id
                 left join scores sc on sc.submission_id = s.id
                 inner join projects p on p.id = s.project_id
                 where p.id = ?
-                group by s.id, u.id
+                group by s.id, u.id, p.id
                 having json_agg(sc.*)::json->>0 is null
               `
 
   knex.raw(query, [project_id])
   .then((data) => {
     response.status(200).json(data.rows)
+  })
+})
+
+app.get('/api/v1/projects/:id/areas', (request, response, next) => {
+  let project_id = request.params.id
+  let query = `select a.* from areas a
+                 inner join project_areas pa on pa.area_id = a.id
+                 where pa.project_id = ?
+              `
+  knex.raw(query, [project_id])
+  .then((data) => {
+    response.status(200).json(data.rows)
+  })
+})
+
+app.post('/api/v1/scores', (request, response, next) => {
+  let submission_id = request.body['sub_id']
+  let area_id = request.body['area_id']
+  let score = request.body['score']
+  let query = `insert into scores (score, area_id, submission_id)
+               values (?,?,?)
+               returning score
+              `
+
+  knex.raw(query, [score, area_id, submission_id])
+  .then((data) => {
+    response.status(201).json(data.rows[0])
   })
 })
 

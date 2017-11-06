@@ -39,7 +39,7 @@ describe('Server', () => {
     })
 
     describe('GET /api/v1/current_projects', () => {
-      it('should return all current projects', (done) => {
+      it('returns all current projects', (done) => {
         let data = {user_id: 1}
         this.request.get('/api/v1/current_projects',
          {form: data},
@@ -76,8 +76,22 @@ describe('Server', () => {
       })
     })
 
+    describe('GET /api/v1/project/:id/areas', () => {
+      it('returns the areas for a project', (done) => {
+        this.request.get(`/api/v1/projects/${1}/areas`, (err, res) => {
+          if (err) { done (err) }
+
+          let areas = JSON.parse(res.body)
+
+          assert.equal(areas.length, 3)
+          assert.equal(areas[0].name, 'Functionality')
+          done()
+        })
+      })
+    })
+
     describe('POST /api/v1/sessions', () => {
-      it('should log a user in', (done) => {
+      it('logs a user in', (done) => {
         let user_info = {username: 'johnyboi', password: 'pass'}
 
         this.request.post('/api/v1/sessions', {form: user_info}, (err, res) => {
