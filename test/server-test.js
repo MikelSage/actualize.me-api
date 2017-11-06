@@ -38,25 +38,39 @@ describe('Server', () => {
       return knex.migrate.rollback()
     })
 
-    // describe('GET /api/v1/:rubric_id/submissions', (done) => {
-    //   this.request.get('/api/v1/1/submissions', (error, response) => {
-    //     if (error) { done(error) }
-    //
-    //     let submissions = JSON.parse(response.body)
-    //     assert.equal(submissions.length, 3)
-    //
-    //   })
-    // })
-
     describe('GET /api/v1/current_projects', () => {
       it('should return all current projects', (done) => {
         let data = {user_id: 1}
-        this.request.get('/api/v1/current_projects', {form: data}, function(err, res) {
+        this.request.get('/api/v1/current_projects',
+         {form: data},
+         (err, res) => {
           if (err) { done(err) }
 
           let projects = JSON.parse(res.body)
           assert.equal(projects.length, 6)
           assert.equal(projects[0].name, 'Date Night')
+          done()
+        })
+      })
+    })
+
+    describe('GET /api/v1/projects/:id/ungraded_subs', () => {
+      it('returns ungraded submissions for a project', (done) => {
+        this.request.get(`/api/v1/projects/${1}/ungraded_subs`,
+        (err, res) => {
+          if (err) { done(err) }
+
+          let submissions = JSON.parse(res.body)
+          let submission1 = submissions[0]
+          let submission2 = submissions[1]
+
+          assert.equal(submissions.length, 2)
+          assert.equal(submission1.user.first_name, 'Mike')
+          assert.equal(submission1.user.last_name, 'Heft')
+          assert.isNull(submission1.scores[0])
+          assert.equal(submission2.user.first_name, 'Katie')
+          assert.equal(submission2.user.last_name, 'Keel')
+          assert.isNull(submission2.scores[0])
           done()
         })
       })
