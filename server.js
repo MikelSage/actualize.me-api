@@ -2,26 +2,19 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-const environment = process.env.NODE_ENV || 'development'
-const configuration = require('./knexfile')[environment]
-const knex = require('knex')(configuration)
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const bcrypt = require('bcryptjs')
-const Projects = require('./lib/controllers/projects')
-const CurrentProjects = require('./lib/controllers/projects/currentProjects')
-const UngradedSubs = require('./lib/controllers/projects/ungradedSubs')
-const ProjectAreas = require('./lib/controllers/projects/areas')
-const Scores = require('./lib/controllers/scores')
-const Sessions = require('./lib/controllers/sessions')
+const User = require('./lib/models/user')
+const Controllers = require('./lib/controllers');
 
 app.use(passport.initialize())
 
 passport.use(new LocalStrategy(
   (username, password, done) => {
-    knex('users').where({username: username}).first()
+    User.findByUsername(username)
     .then((user) => {
-      if (!user) { done(null, false, {message: 'wrong username'}) }
+      if (!user) { done(null, false) }
       if (!bcrypt.compareSync(password, user.password)) {
         return done(null, false)
       } else {
@@ -45,19 +38,19 @@ app.use(function(req, res, next) {
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.get('/api/v1/current_projects', CurrentProjects.index)
+app.get('/api/v1/current_projects', Controllers.CurrentProjects.index)
 
-app.get('/api/v1/projects/:id', Projects.show)
+app.get('/api/v1/projects/:id', Controllers.Projects.show)
 
-app.get('/api/v1/projects/:id/ungraded_subs', UngradedSubs.index)
+app.get('/api/v1/projects/:id/ungraded_subs', Controllers.UngradedSubs.index)
 
-app.get('/api/v1/projects/:id/areas', ProjectAreas.index)
+app.get('/api/v1/projects/:id/areas', Controllers.ProjectAreas.index)
 
-app.post('/api/v1/scores', Scores.create)
+app.post('/api/v1/scores', Controllers.Scores.create)
 
 app.post('/api/v1/sessions',
          passport.authenticate('local', {session: false}),
-         Sessions.create)
+         Controllers.Sessions.create)
 
 if (!module.parent) {
   app.listen(app.get('port'), () =>
