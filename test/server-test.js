@@ -64,7 +64,7 @@ describe('Server', () => {
           let submission1 = submissions[0]
           let submission2 = submissions[1]
 
-          assert.equal(submissions.length, 2)
+          assert.equal(submissions.length, 4)
           assert.equal(submission1.user.first_name, 'Mike')
           assert.equal(submission1.user.last_name, 'Heft')
           assert.isNull(submission1.scores[0])
@@ -85,6 +85,31 @@ describe('Server', () => {
 
           assert.equal(areas.length, 3)
           assert.equal(areas[0].name, 'Functionality')
+          done()
+        })
+      })
+    })
+
+    describe('POST /api/v1/scores', () => {
+      it('creates a score for that project', (done) => {
+        let data = {sub_id: 1, area_id: 1, score: 4}
+
+        knex('scores').count('id')
+        .then((data) => {
+          assert.equal(data[0].count, 3)
+        })
+        this.request.post('/api/v1/scores', {form: data}, (err, res) => {
+          if (err) { done(err) }
+
+          let record = JSON.parse(res.body)
+
+          assert.equal(record.score, data.score)
+          assert.equal(record.area_id, data.area_id)
+          assert.equal(record.submission_id, data.sub_id)
+          knex('scores').count('id')
+          .then((data) => {
+            assert.equal(data[0].count, 4)
+          })
           done()
         })
       })

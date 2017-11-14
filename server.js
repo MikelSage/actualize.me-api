@@ -41,11 +41,17 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.get('/api/v1/current_projects', (request, response, next) => {
+  let user_id = request.body['user_id']
   let query = `select p.* from projects p
                  inner join modules m on p.module_id = m.id
-                 where m.start_date < now() and m.end_date > now()
+                 inner join user_modules um on um.module_id = m.id
+                 inner join users u on u.id = um.user_id
+                 where m.start_date < now()
+                 and m.end_date > now()
+                 and u.id = ?
+                 order by p.id
               `
-  knex.raw(query)
+  knex.raw(query, [user_id])
   .then((data) => {
     response.status(200).json(data.rows)
   })
@@ -96,7 +102,7 @@ app.post('/api/v1/scores', (request, response, next) => {
   let score = request.body['score']
   let query = `insert into scores (score, area_id, submission_id)
                values (?,?,?)
-               returning score
+               returning id, score, area_id, submission_id
               `
 
   knex.raw(query, [score, area_id, submission_id])
