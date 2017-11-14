@@ -58,19 +58,7 @@ app.get('/api/v1/projects/:id', (request, response, next) => {
 })
 
 app.get('/api/v1/projects/:id/ungraded_subs', (request, response, next) =>{
-  let project_id = request.params.id
-  let query =`select s.*, p.name as project_name,
-                row_to_json(u.*) as user, json_agg(sc.*) as scores
-                from submissions s
-                inner join users u on s.user_id = u.id
-                left join scores sc on sc.submission_id = s.id
-                inner join projects p on p.id = s.project_id
-                where p.id = ?
-                group by s.id, u.id, p.id
-                having json_agg(sc.*)::json->>0 is null
-              `
-
-  knex.raw(query, [project_id])
+  Project.ungradedSubs(request.params.id)
   .then((data) => {
     response.status(200).json(data.rows)
   })
