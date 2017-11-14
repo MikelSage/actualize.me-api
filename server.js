@@ -10,8 +10,8 @@ const LocalStrategy = require('passport-local').Strategy
 const bcrypt = require('bcryptjs')
 const _ = require('lodash')
 const Project = require('./lib/models/Project')
-const Score = require('./lib/models/Score')
-const Projects = require('./lib/controllers/Projects');
+const Projects = require('./lib/controllers/Projects')
+const Scores = require('./lib/controllers/scores')
 
 app.use(passport.initialize())
 
@@ -68,12 +68,7 @@ app.get('/api/v1/projects/:id/areas', (request, response, next) => {
   })
 })
 
-app.post('/api/v1/scores', (request, response, next) => {
-  Score.create(request.body)
-  .then((data) => {
-    response.status(201).json(data.rows[0])
-  })
-})
+app.post('/api/v1/scores', Scores.create)
 
 app.post('/api/v1/sessions', passport.authenticate('local', {session: false}),
   (request, response) => {
