@@ -4,7 +4,7 @@ const request = require('request')
 const environment = process.env.NODE_ENV || 'development'
 const configuration = require('../knexfile')[environment]
 const knex = require('knex')(configuration)
-const Score = require('../lib/models/Score');
+const Score = require('../lib/models/score');
 
 describe('Server', () => {
   before((done) => {
@@ -50,6 +50,20 @@ describe('Server', () => {
           let projects = JSON.parse(res.body)
           assert.equal(projects.length, 6)
           assert.equal(projects[0].name, 'Date Night')
+          done()
+        })
+      })
+    })
+
+    describe('GET /api/v1/projects/:id', () => {
+      it('returns the correct project', (done) => {
+        this.request.get('/api/v1/projects/1', (err, res) => {
+          if (err) { done(err) }
+
+          let project = JSON.parse(res.body)
+
+          assert.equal(project.id, 1)
+          assert.equal(project.name, 'Date Night')
           done()
         })
       })
