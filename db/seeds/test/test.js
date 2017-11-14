@@ -1,5 +1,5 @@
-const moment = require('moment');
-const bcrypt = require('bcryptjs');
+const moment = require('moment')
+const bcrypt = require('bcryptjs')
 
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries

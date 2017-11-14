@@ -6,7 +6,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const bcrypt = require('bcryptjs')
 const User = require('./lib/models/user')
-const Controllers = require('./lib/controllers');
+const Controllers = require('./lib/controllers')
 
 app.use(passport.initialize())
 
@@ -29,11 +29,11 @@ app.locals.title = 'actualize-api'
 app.set('port', process.env.PORT || 5000)
 
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Origin", "*")
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   res.header("Access-Control-Allow-Methods", "POST, PATCH, GET, DELETE, OPTIONS")
-  next();
-});
+  next()
+})
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))

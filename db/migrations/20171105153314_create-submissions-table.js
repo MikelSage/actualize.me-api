@@ -8,8 +8,8 @@ exports.up = function(knex, Promise) {
     table.integer('project_id').unsigned().references('id').inTable('projects')
     table.timestamps(true, true)
   })
-};
+} 
 
 exports.down = function(knex, Promise) {
   return knex.schema.dropTable('submissions')
-};
+} 

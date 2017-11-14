@@ -5,7 +5,7 @@ exports.up = function(knex, Promise) {
     table.string('description')
     table.enu('role', ['student', 'instructor']).defaultTo('student')
   })
-};
+} 
 
 exports.down = function(knex, Promise) {
   return knex.schema.table('users', function(table) {
@@ -13,4 +13,4 @@ exports.down = function(knex, Promise) {
     table.dropColumn('description')
     table.dropColumn('role')
   })
-};
+} 

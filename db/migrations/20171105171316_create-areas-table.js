@@ -5,8 +5,8 @@ exports.up = function(knex, Promise) {
     table.string('name')
     table.string('description')
   })
-};
+} 
 
 exports.down = function(knex, Promise) {
   return knex.schema.dropTable('areas')
-};
+} 
