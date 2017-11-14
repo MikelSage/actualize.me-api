@@ -8,12 +8,12 @@ const knex = require('knex')(configuration)
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const bcrypt = require('bcryptjs')
-const _ = require('lodash')
 const Projects = require('./lib/controllers/projects')
 const CurrentProjects = require('./lib/controllers/projects/currentProjects')
 const UngradedSubs = require('./lib/controllers/projects/ungradedSubs')
 const ProjectAreas = require('./lib/controllers/projects/areas')
 const Scores = require('./lib/controllers/scores')
+const Sessions = require('./lib/controllers/sessions')
 
 app.use(passport.initialize())
 
@@ -55,11 +55,9 @@ app.get('/api/v1/projects/:id/areas', ProjectAreas.index)
 
 app.post('/api/v1/scores', Scores.create)
 
-app.post('/api/v1/sessions', passport.authenticate('local', {session: false}),
-  (request, response) => {
-    let user_info = _.pick(request.user, ['id', 'role'])
-    response.status(200).json(user_info)
-  })
+app.post('/api/v1/sessions',
+         passport.authenticate('local', {session: false}),
+         Sessions.create)
 
 if (!module.parent) {
   app.listen(app.get('port'), () =>
