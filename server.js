@@ -8,8 +8,9 @@ const knex = require('knex')(configuration)
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const bcrypt = require('bcryptjs')
-const _ = require('lodash');
-const Project = require('./lib/models/Project');
+const _ = require('lodash')
+const Project = require('./lib/models/Project')
+const Score = require('./lib/models/Score');
 
 app.use(passport.initialize())
 
@@ -72,15 +73,7 @@ app.get('/api/v1/projects/:id/areas', (request, response, next) => {
 })
 
 app.post('/api/v1/scores', (request, response, next) => {
-  let submission_id = request.body['sub_id']
-  let area_id = request.body['area_id']
-  let score = request.body['score']
-  let query = `insert into scores (score, area_id, submission_id)
-               values (?,?,?)
-               returning id, score, area_id, submission_id
-              `
-
-  knex.raw(query, [score, area_id, submission_id])
+  Score.create(request.body)
   .then((data) => {
     response.status(201).json(data.rows[0])
   })
