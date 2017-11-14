@@ -4,7 +4,7 @@ const request = require('request')
 const environment = process.env.NODE_ENV || 'development'
 const configuration = require('../knexfile')[environment]
 const knex = require('knex')(configuration)
-const Score = require('../lib/models/Score');
+const Score = require('../lib/models/score');
 
 describe('Server', () => {
   before((done) => {
