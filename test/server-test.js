@@ -55,6 +55,20 @@ describe('Server', () => {
       })
     })
 
+    describe('GET /api/v1/projects/:id', () => {
+      it('returns the correct project', (done) => {
+        this.request.get('/api/v1/projects/1', (err, res) => {
+          if (err) { done(err) }
+
+          let project = JSON.parse(res.body)
+
+          assert.equal(project.id, 1)
+          assert.equal(project.name, 'Date Night')
+          done()
+        })
+      })
+    })
+
     describe('GET /api/v1/projects/:id/ungraded_subs', () => {
       it('returns ungraded submissions for a project', (done) => {
         this.request.get(`/api/v1/projects/${1}/ungraded_subs`,

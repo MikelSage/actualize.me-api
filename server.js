@@ -9,6 +9,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const bcrypt = require('bcryptjs')
 const _ = require('lodash');
+const Project = require('./lib/models/Project');
 
 app.use(passport.initialize())
 
@@ -42,26 +43,17 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 app.get('/api/v1/current_projects', (request, response, next) => {
   let user_id = request.body['user_id']
-  let query = `select p.* from projects p
-                 inner join modules m on p.module_id = m.id
-                 inner join user_modules um on um.module_id = m.id
-                 inner join users u on u.id = um.user_id
-                 where m.start_date < now()
-                 and m.end_date > now()
-                 and u.id = ?
-                 order by p.id
-              `
-  knex.raw(query, [user_id])
+
+  Project.currentProjects(user_id)
   .then((data) => {
     response.status(200).json(data.rows)
   })
 })
 
 app.get('/api/v1/projects/:id', (request, response, next) => {
-  let project_id = request.params.id
-  knex.raw('select * from projects p where p.id = ?', [project_id])
+  Project.find(request.params.id)
   .then((data) => {
-    response.status(200).json(data.rows[0])
+    response.status(200).json(data[0])
   })
 })
 
