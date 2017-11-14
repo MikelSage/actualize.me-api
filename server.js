@@ -9,10 +9,10 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const bcrypt = require('bcryptjs')
 const _ = require('lodash')
-const Project = require('./lib/models/project')
 const Projects = require('./lib/controllers/projects')
 const CurrentProjects = require('./lib/controllers/projects/currentProjects')
 const UngradedSubs = require('./lib/controllers/projects/ungradedSubs')
+const ProjectAreas = require('./lib/controllers/projects/areas')
 const Scores = require('./lib/controllers/scores')
 
 app.use(passport.initialize())
@@ -51,12 +51,7 @@ app.get('/api/v1/projects/:id', Projects.show)
 
 app.get('/api/v1/projects/:id/ungraded_subs', UngradedSubs.index)
 
-app.get('/api/v1/projects/:id/areas', (request, response, next) => {
-  Project.areas(request.params.id)
-  .then((data) => {
-    response.status(200).json(data.rows)
-  })
-})
+app.get('/api/v1/projects/:id/areas', ProjectAreas.index)
 
 app.post('/api/v1/scores', Scores.create)
 
