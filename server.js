@@ -65,12 +65,7 @@ app.get('/api/v1/projects/:id/ungraded_subs', (request, response, next) =>{
 })
 
 app.get('/api/v1/projects/:id/areas', (request, response, next) => {
-  let project_id = request.params.id
-  let query = `select a.* from areas a
-                 inner join project_areas pa on pa.area_id = a.id
-                 where pa.project_id = ?
-              `
-  knex.raw(query, [project_id])
+  Project.areas(request.params.id)
   .then((data) => {
     response.status(200).json(data.rows)
   })
