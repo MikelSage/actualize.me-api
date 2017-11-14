@@ -11,6 +11,7 @@ const bcrypt = require('bcryptjs')
 const _ = require('lodash')
 const Project = require('./lib/models/Project')
 const Projects = require('./lib/controllers/Projects')
+const CurrentProjects = require('./lib/controllers/projects/currentProjects')
 const Scores = require('./lib/controllers/scores')
 
 app.use(passport.initialize())
@@ -43,14 +44,7 @@ app.use(function(req, res, next) {
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.get('/api/v1/current_projects', (request, response, next) => {
-  let user_id = request.body['user_id']
-
-  Project.currentProjects(user_id)
-  .then((data) => {
-    response.status(200).json(data.rows)
-  })
-})
+app.get('/api/v1/current_projects', CurrentProjects.index)
 
 app.get('/api/v1/projects/:id', Projects.show)
 
