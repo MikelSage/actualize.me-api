@@ -9,8 +9,8 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const bcrypt = require('bcryptjs')
 const _ = require('lodash')
-const Project = require('./lib/models/Project')
-const Projects = require('./lib/controllers/Projects')
+const Project = require('./lib/models/project')
+const Projects = require('./lib/controllers/projects')
 const CurrentProjects = require('./lib/controllers/projects/currentProjects')
 const Scores = require('./lib/controllers/scores')
 
