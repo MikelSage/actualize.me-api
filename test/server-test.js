@@ -4,7 +4,6 @@ const request = require('request')
 const environment = process.env.NODE_ENV || 'development'
 const configuration = require('../knexfile')[environment]
 const knex = require('knex')(configuration)
-const Score = require('../lib/models/score')
 
 describe('Server', () => {
   before((done) => {
@@ -37,31 +36,6 @@ describe('Server', () => {
 
     afterEach(() => {
       return knex.migrate.rollback()
-    })
-
-    describe('POST /api/v1/scores', () => {
-      it('creates a score for that project', (done) => {
-        let data = {sub_id: 1, area_id: 1, score: 4}
-        Score.count()
-        .then((data) => {
-          assert.equal(data[0].count, 3)
-        })
-
-        this.request.post('/api/v1/scores', {form: data}, (err, res) => {
-          if (err) { done(err) }
-
-          let record = JSON.parse(res.body)
-
-          assert.equal(record.score, data.score)
-          assert.equal(record.area_id, data.area_id)
-          assert.equal(record.submission_id, data.sub_id)
-          Score.count()
-          .then((data) => {
-            assert.equal(data[0].count, 4)
-          })
-          done()
-        })
-      })
     })
 
     describe('GET /api/v1/modules', () => {
