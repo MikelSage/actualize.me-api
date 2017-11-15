@@ -38,22 +38,6 @@ describe('Server', () => {
       return knex.migrate.rollback()
     })
 
-    describe('GET /api/v1/modules', () => {
-      it('returns all modules', (done) => {
-        this.request.get('/api/v1/modules', (err, res) => {
-          if (err) { done(err) }
-
-          let modules = JSON.parse(res.body)
-          let module1 = modules[0]
-
-          assert.equal(modules.length, 2)
-          assert.equal(module1.inning, 1705)
-          assert.equal(module1.program, 'Backend')
-          done()
-        })
-      })
-    })
-
     describe('POST /api/v1/sessions', () => {
       it('logs a user in', (done) => {
         let user_info = {username: 'johnyboi', password: 'pass'}
