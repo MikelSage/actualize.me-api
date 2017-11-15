@@ -51,6 +51,8 @@ app.post('/api/v1/scores', Controllers.Scores.create)
 app.post('/api/v1/sessions',
          passport.authenticate('local', {session: false}),
          Controllers.Sessions.create)
+         
+app.get('/api/v1/modules', Controllers.Modules.index)
 
 if (!module.parent) {
   app.listen(app.get('port'), () =>
