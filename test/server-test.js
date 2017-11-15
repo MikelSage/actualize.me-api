@@ -4,7 +4,7 @@ const request = require('request')
 const environment = process.env.NODE_ENV || 'development'
 const configuration = require('../knexfile')[environment]
 const knex = require('knex')(configuration)
-const Score = require('../lib/models/score') 
+const Score = require('../lib/models/score')
 
 describe('Server', () => {
   before((done) => {
@@ -42,9 +42,8 @@ describe('Server', () => {
     describe('GET /api/v1/current_projects', () => {
       it('returns all current projects', (done) => {
         let data = {user_id: 1}
-        this.request.get('/api/v1/current_projects',
-         {form: data},
-         (err, res) => {
+        this.request.get(`/api/v1/current_projects?user_id=${1}`,
+        (err, res) => {
           if (err) { done(err) }
 
           let projects = JSON.parse(res.body)
