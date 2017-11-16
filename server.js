@@ -42,6 +42,8 @@ app.get('/api/v1/current_projects', Controllers.CurrentProjects.index)
 
 app.get('/api/v1/projects/:id', Controllers.Projects.show)
 
+app.post('/api/v1/projects', Controllers.Projects.create)
+
 app.get('/api/v1/projects/:id/ungraded_subs', Controllers.UngradedSubs.index)
 
 app.get('/api/v1/projects/:id/areas', Controllers.ProjectAreas.index)
@@ -51,6 +53,10 @@ app.post('/api/v1/scores', Controllers.Scores.create)
 app.post('/api/v1/sessions',
          passport.authenticate('local', {session: false}),
          Controllers.Sessions.create)
+
+app.get('/api/v1/modules', Controllers.Modules.index)
+
+app.get('/api/v1/areas', Controllers.Areas.index)
 
 if (!module.parent) {
   app.listen(app.get('port'), () =>
