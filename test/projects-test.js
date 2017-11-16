@@ -4,6 +4,7 @@ const request = require('request')
 const environment = process.env.NODE_ENV || 'development'
 const configuration = require('../knexfile')[environment]
 const knex = require('knex')(configuration)
+const Project = require('../lib/models/project')
 
 describe('Project Routes', () => {
   before((done) => {
@@ -94,6 +95,37 @@ describe('Project Routes', () => {
         assert.equal(areas.length, 3)
         assert.equal(areas[0].name, 'Functionality')
         done()
+      })
+    })
+  })
+
+  describe('POST /api/v1/projects', () => {
+    it('creates a project record', (done) => {
+      let projectData = {
+        name: 'Buttership',
+        description: 'Better than battleship by far',
+        moduleId: 1,
+        specUrl: 'www.google.com',
+        areas: [1, 3]
+      }
+
+      Project.count().then((data) => {
+        assert.equal(data[0].count, 7)
+      })
+
+      this.request.post('/api/v1/projects', {form: projectData}, (err, res) => {
+        if (err) { done(err) }
+
+        let newProject = JSON.parse(res.body)
+
+        Project.count().then((data) => {
+          assert.equal(data[0].count, 8)
+        })
+
+        done()
+        // assert.equal(newProject.name, projectData.name)
+        // assert.equal(newProject.description, projectData.description)
+        // assert.equal(newProject.spec_url, projectData.specUrl)
       })
     })
   })

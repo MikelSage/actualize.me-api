@@ -42,6 +42,8 @@ app.get('/api/v1/current_projects', Controllers.CurrentProjects.index)
 
 app.get('/api/v1/projects/:id', Controllers.Projects.show)
 
+app.post('/api/v1/projects', Controllers.Projects.create)
+
 app.get('/api/v1/projects/:id/ungraded_subs', Controllers.UngradedSubs.index)
 
 app.get('/api/v1/projects/:id/areas', Controllers.ProjectAreas.index)
