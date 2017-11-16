@@ -123,9 +123,6 @@ describe('Project Routes', () => {
         })
 
         done()
-        // assert.equal(newProject.name, projectData.name)
-        // assert.equal(newProject.description, projectData.description)
-        // assert.equal(newProject.spec_url, projectData.specUrl)
       })
     })
   })
