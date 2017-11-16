@@ -60,6 +60,8 @@ app.get('/api/v1/areas', Controllers.Areas.index)
 
 app.post('/api/v1/submissions', Controllers.Submissions.create)
 
+app.get('/api/v1/users/:id/average_scores', Controllers.AvgScores.index)
+
 if (!module.parent) {
   app.listen(app.get('port'), () =>
     console.log(`${app.locals.title} is running on ${app.get('port')}`)
