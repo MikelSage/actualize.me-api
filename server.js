@@ -58,6 +58,8 @@ app.get('/api/v1/modules', Controllers.Modules.index)
 
 app.get('/api/v1/areas', Controllers.Areas.index)
 
+app.post('/api/v1/submissions', Controllers.Submissions.create)
+
 if (!module.parent) {
   app.listen(app.get('port'), () =>
     console.log(`${app.locals.title} is running on ${app.get('port')}`)
