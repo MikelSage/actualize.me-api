@@ -58,4 +58,22 @@ describe('Scores routes', () => {
       })
     })
   })
+
+  describe('GET /api/v1/users/:id/average_scores', () => {
+    it('returns the average scores for each area', (done) => {
+      this.request.get('/api/v1/users/4/average_scores', (err, res) => {
+
+        let scores = JSON.parse(res.body)
+
+        assert.equal(scores.length, 3)
+        assert.equal(scores[0].name, 'Functionality')
+        assert.equal(scores[0].avg, 3.0)
+        assert.equal(scores[1].name, 'Ruby Syntax and Style')
+        assert.equal(scores[1].avg, 3.0)
+        assert.equal(scores[2].name, 'Test-Driven Development')
+        assert.equal(scores[2].avg, 4.0)
+        done()
+      })
+    })
+  })
 })
