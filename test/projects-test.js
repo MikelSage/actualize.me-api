@@ -7,8 +7,7 @@ const knex = require('knex')(configuration)
 const Project = require('../lib/models/project')
 
 describe('Project Routes', () => {
-  this.timeout(0)
-  
+    
   before((done) => {
     this.port = 9876
 
