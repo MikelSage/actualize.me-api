@@ -1,5 +1,5 @@
-const moment = require('moment') 
-const bcrypt = require('bcryptjs') 
+const moment = require('moment')
+const bcrypt = require('bcryptjs')
 
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
@@ -214,6 +214,54 @@ exports.seed = function(knex, Promise) {
         },
         {
           project_id: 2,
+          area_id: 3
+        },
+        {
+          project_id: 3,
+          area_id: 1
+        },
+        {
+          project_id: 3,
+          area_id: 2
+        },
+        {
+          project_id: 3,
+          area_id: 3
+        },
+        {
+          project_id: 4,
+          area_id: 1
+        },
+        {
+          project_id: 4,
+          area_id: 2
+        },
+        {
+          project_id: 4,
+          area_id: 3
+        },
+        {
+          project_id: 5,
+          area_id: 1
+        },
+        {
+          project_id: 5,
+          area_id: 2
+        },
+        {
+          project_id: 5,
+          area_id: 3
+        },
+        {
+          project_id: 6,
+          area_id: 1
+        },
+        {
+          project_id: 6,
+          area_id: 2
+        },
+        {
+          project_id: 6,
           area_id: 3
         }
       ])
